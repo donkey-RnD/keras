@@ -6,7 +6,6 @@ services:
       dockerfile: ./Dockerfile
     volumes:
       - "./src:/tensorflow"
+      - "/tmp/.X11-unix:/tmp/.X11-unix"
     ports:
       - "8888:8888"
-    environment:
-      DISPLAY: ":0"

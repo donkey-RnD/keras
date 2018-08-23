@@ -1,2 +1,4 @@
 # keras
-# keras
+
+# for Xquartz
+`xhost + dockerip`
