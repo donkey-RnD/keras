@@ -8,3 +8,5 @@ services:
       - "./src:/tensorflow"
     ports:
       - "8888:8888"
+    environment:
+      DISPLAY: ":0"
