@@ -1,0 +1,8 @@
+version: '2'
+services:
+  tensorflow:
+    image: tensorflow/tensorflow
+    volumes:
+      - "./src:/tensorflow"
+    ports:
+      - "8888:8888"
