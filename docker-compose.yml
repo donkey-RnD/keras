@@ -1,7 +1,9 @@
 version: '2'
 services:
   tensorflow:
-    image: tensorflow/tensorflow
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
     volumes:
       - "./src:/tensorflow"
     ports:
