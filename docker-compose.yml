@@ -7,5 +7,7 @@ services:
     volumes:
       - "./src:/tensorflow"
       - "/tmp/.X11-unix:/tmp/.X11-unix"
+    environment:
+      - DISPLAY: "$IP:0"
     ports:
       - "8888:8888"
