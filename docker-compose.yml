@@ -7,6 +7,7 @@ services:
     volumes:
       - "./src:/tensorflow"
       - "/tmp/.X11-unix:/tmp/.X11-unix"
+      - "./images:/tensorflow/images"
     environment:
       - DISPLAY=${DOCKER_IP}:0
     ports:
