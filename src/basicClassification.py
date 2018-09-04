@@ -5,23 +5,48 @@ from tensorflow import keras
 # Helper libraries
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.image as image
+from PIL import Image
+import PIL.ImageOps
+indexLabel = 0
+indeximg = "/tensorflow/images/yann.jpeg"
 
+im = Image.open(indeximg)
+im.thumbnail((28, 28), Image.ANTIALIAS)
+# im.transform((28, 28), PIL.Image.AFFINE, None, 1)
+im = im.convert('L')
+im = PIL.ImageOps.invert(im)
+im = np.asarray(im) / 255.0
+
+plt.figure()
+plt.imshow(im)
+plt.show()
+exit()
+    
 import time
 
-fashion_mnist = keras.datasets.fashion_mnist
 
 class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat', 
                'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
                
+fashion_mnist = keras.datasets.fashion_mnist
 
 (train_images, train_labels), (test_images, test_labels) = fashion_mnist.load_data()
+
+# print(test_images)
+# print(type(test_images))
+# exit()
+
+train_images = train_images / 255.0
+
+test_images = test_images / 255.0
+
 
 model = keras.Sequential([
     keras.layers.Flatten(input_shape=(28, 28)),
     keras.layers.Dense(128, activation=tf.nn.relu),
     keras.layers.Dense(10, activation=tf.nn.softmax)
 ])
-
 
 model.compile(optimizer=tf.train.AdamOptimizer(), 
               loss='sparse_categorical_crossentropy',
@@ -32,15 +57,6 @@ model.fit(train_images, train_labels, epochs=5)
 test_loss, test_acc = model.evaluate(test_images, test_labels)
 
 print('Test accuracy:', test_acc)
-
-
-
-
-
-predictions = model.predict(test_images)
-
-
-
 
 
 def plot_image(i, predictions_array, true_label, img):
@@ -74,14 +90,24 @@ def plot_value_array(i, predictions_array, true_label):
   thisplot[predicted_label].set_color('red')
   thisplot[true_label].set_color('blue')
 
-num_rows = 5
-num_cols = 3
-num_images = num_rows*num_cols
-plt.figure(figsize=(2*2*num_cols, 2*num_rows))
-for i in range(num_images):
-  plt.subplot(num_rows, 2*num_cols, 2*i+1)
-  plot_image(i, predictions, test_labels, test_images)
-  plt.subplot(num_rows, 2*num_cols, 2*i+2)
-  plot_value_array(i, predictions, test_labels)
-
+images = np.array([im])
+predictions = model.predict(images)
+i=0
+plt.figure(figsize=(6,3))
+plt.subplot(1,2,1)
+plot_image(i, predictions, [indexLabel], [Image.open(indeximg)])
+plt.subplot(1,2,2)
+plot_value_array(i, predictions,  [indexLabel])
 plt.show()
+
+# num_rows = 5
+# num_cols = 3
+# num_images = num_rows*num_cols
+# plt.figure(figsize=(2*2*num_cols, 2*num_rows))
+# for i in range(num_images):
+#   plt.subplot(num_rows, 2*num_cols, 2*i+1)
+#   plot_image(i, predictions, test_labels, test_images)
+#   plt.subplot(num_rows, 2*num_cols, 2*i+2)
+#   plot_value_array(i, predictions, test_labels)
+
+# plt.show()
